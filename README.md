@@ -13,3 +13,8 @@ e) test plan.<br />
 
 # Courses completed
 1. The basics of manual software testing with Software Tester on Udemy <br /> https://www.udemy.com/course/kurs-testowania-oprogramowania/
+
+# The tools I use:
+a) Jira, <br />
+b) TestLink
+
