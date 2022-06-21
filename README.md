@@ -16,5 +16,11 @@ e) test plan.<br />
 
 # The tools I use:
 a) Jira, <br />
-b) TestLink
+b) TestLink, <br /> 
+c) qTest
 
+# I am currently learning to test by:
+1. The Complete 2022 Software Testing Bootcamp by T.Gad and Nezam Academy on Udemy <br /> https://www.udemy.com/course/testerbootcamp/
+2. Syllabus ISTQB
+3. Blog https://www.wyszkolewas.com.pl/category/testowanie_manualne/
+4. Software testing course by a programming technician on youtube 
