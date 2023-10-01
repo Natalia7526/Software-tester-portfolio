@@ -1,10 +1,10 @@
 # Natalia - Software Testing Portfolio
 Welcome to my software testing portfolio! I'm Natalia, a passionate software tester who is dedicated to ensuring the quality of software products. Here, you'll find a collection of my work, achievements, and ongoing learning journey in the realm of software testing.
 
-# About Me
+# 🧪 About Me
 I'm Natalia, and I'm embarking on an exciting journey in the world of software testing. My primary testing tools are TestLink and Jira, where I put theory into practice and ensure that software functions as intended.
 
-# What You'll Discover Here
+# 🚀 What You'll Discover Here
 This portfolio showcases a variety of assets that represent my contributions to software testing:
 
 a) Test Cases: Documented test cases that I've created to verify the functionality of software.
@@ -17,14 +17,14 @@ d) Error Descriptions: Clear descriptions of any defects or issues I've discover
 
 e) Test Plans: Thorough test plans that guide my testing approach and strategy.
 
-# Completed Courses
+# 🌐 Completed Courses
 To strengthen my testing skills, I've completed the following courses:
 
 ISTQB Foundation Level: A certification course that provides a solid foundation in software testing principles.
 
 The Basics of Manual Software Testing: An insightful course offered by Software Tester on Udemy. Course Link
 
-# Tools of the Trade
+# 💻 Tools of the Trade
 I leverage various testing and project management tools to ensure efficient and effective testing processes:
 
 a) Jira: A powerful tool for issue tracking, project management, and bug tracking.
@@ -35,7 +35,7 @@ c) Postman: An API testing tool that enables me to assess the reliability of API
 
 d) Trello: A collaborative project management tool that aids in organizing tasks and tracking progress.
 
-# Continuous Learning
+# 💡 Continuous Learning
 My learning journey never stops. Currently, I'm enhancing my testing skills through the following resources:
 
 The Complete 2022 Software Testing Bootcamp: An in-depth course by T.Gad and Nezam Academy on Udemy. Course Link
