@@ -12,7 +12,8 @@ d) error description,<br />
 e) test plan.<br />
 
 # Courses completed
-1. The basics of manual software testing with Software Tester on Udemy <br /> https://www.udemy.com/course/kurs-testowania-oprogramowania/
+1. ISTQB foundation level
+2. The basics of manual software testing with Software Tester on Udemy <br /> https://www.udemy.com/course/kurs-testowania-oprogramowania/
 
 # The tools I use:
 a) Jira, <br />
@@ -22,6 +23,5 @@ d) Trello.
 
 # I am currently learning to test by:
 1. The Complete 2022 Software Testing Bootcamp by T.Gad and Nezam Academy on Udemy <br /> https://www.udemy.com/course/testerbootcamp/
-2. Syllabus ISTQB
 3. Blog https://www.wyszkolewas.com.pl/category/testowanie_manualne/
 4. Software testing course by a programming technician on youtube 
