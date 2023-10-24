@@ -38,7 +38,7 @@ d) Trello: A collaborative project management tool that aids in organizing tasks
 # 💡 Continuous Learning
 My learning journey never stops. Currently, I'm enhancing my testing skills through the following resources:
 
-The Complete 2023 Software Testing Bootcamp. [Course Link](https://www.udemy.com/course/testerbootcamp/)
-Rest API Testing (Automation) from Scratch-Rest Assured Java [Course Link]([https://www.udemy.com/course/testerbootcamp/](https://www.udemy.com/course/rest-api-automation-testing-rest-assured/))
+The Complete 2023 Software Testing Bootcamp
+Rest API Testing (Automation) from Scratch-Rest Assured Java
 
 Feel free to explore my portfolio and get in touch if you'd like to collaborate or discuss anything related to software testing. Let's ensure the software we test is nothing short of impeccable!
