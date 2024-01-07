@@ -1,0 +1,323 @@
+{
+	"info": {
+		"_postman_id": "0e1cab24-d67a-4318-97d2-927318698995",
+		"name": "✅ Assignment #4",
+		"description": "## Instructions for Assignment #4\n\n1. **Get the challenge:** Fork the parent collection to your own public workspace.\n2. **Read the instructions:** You will find the tasks you need to complete below.\n3. **Verify your solution:** Select the second folder `Check your solution` and follow the instructions in the documentation to validate your solution.\n    \n\n## Tasks\n\nFor the request \"Get single product\" you will need to write a JSON schema and test with an assertion that verifies if the response body matches the JSON schema.\n\n### Task 1\n\nThe JSON schema expects that the response is an object.\n\n### Task 2\n\nExpand the JSON schema and ensure that all properties present in the response body are required.\n\n### Task 3\n\nExpand the JSON schema and ensure that no additioanl properties are allowed.\n\n### Task 4\n\nOnce you have established that the tests are working as expected, duplicate request from the collection. Drag the request copies inside the \"Assignment #4\" collection and put them in the \"API requests\" folder. Ensure the name of the request remains the same.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "21617616"
+	},
+	"item": [
+		{
+			"name": "API requests",
+			"item": [
+				{
+					"name": "Get single product",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Schema is valid\", function () {\r",
+									"    const schema = {\r",
+									"        type: 'object',\r",
+									"        properties: {\r",
+									"            id: {\r",
+									"                type: 'integer',\r",
+									"            },\r",
+									"            category: {\r",
+									"                type: 'string'\r",
+									"            },\r",
+									"            name: {\r",
+									"                type: 'string',\r",
+									"            },\r",
+									"            isAvailable: {\r",
+									"                type: 'boolean'\r",
+									"            },\r",
+									"            'product-description': { // Note the single quotes around property name\r",
+									"                type: 'string'\r",
+									"            },\r",
+									"            additionalText: {\r",
+									"                type: 'string'\r",
+									"            }\r",
+									"        },\r",
+									"        required: ['id', 'category', 'name', 'isAvailable', 'product-description', 'additionalText'],\r",
+									"        additionalProperties: false\r",
+									"    };\r",
+									"    pm.response.to.have.jsonSchema(schema);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/products/:productId",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"products",
+								":productId"
+							],
+							"variable": [
+								{
+									"key": "productId",
+									"value": "{{productId}}"
+								}
+							]
+						},
+						"description": "Retrieve a single product by specifying the product ID."
+					},
+					"response": [
+						{
+							"name": "A list of products",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/products?page=1",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"products"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1",
+											"description": "The page number to fetch"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "[\n  {\n    \"id\": \"<integer>\",\n    \"category\": \"<string>\",\n    \"name\": \"<string>\",\n    \"isAvailable\": \"<boolean>\"\n  },\n  {\n    \"id\": \"<integer>\",\n    \"category\": \"<string>\",\n    \"name\": \"<string>\",\n    \"isAvailable\": \"<boolean>\"\n  }\n]"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Check your solution",
+			"item": [
+				{
+					"name": "Verify your work",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let collection = pm.response.json().collection",
+									"",
+									"pm.test(\"If you have any failures, review the failed test results or ask for support in the community forum. Remember to save your changes if you update the collection.\", () => {",
+									"});",
+									"",
+									"pm.test(\"Status code is 200\", () => {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Correct collection returned\", () => {",
+									"    pm.expect(collection.info.name).contains(\"Assignment #4\")",
+									"});",
+									"",
+									"pm.test(\"API key secure\", () => {",
+									"    let apiKey = collection.variable.find(item => { return item.key === \"postman_api_key\"});",
+									"    pm.expect(apiKey.value, 'API key visible under Initial value').does.not.include(\"PMAK\");",
+									"});",
+									"",
+									"let folder = collection.item.find(fol => {return fol.name === \"API requests\"});",
+									"",
+									"const chai = require('chai');",
+									"const originalJsonSchema = chai.Assertion.prototype.jsonSchema;",
+									"let userTests;",
+									"",
+									"pm.test('Request \"Get single product\" exists and has tests', () => {",
+									"    request = folder.item.find(r => { return r.name === \"Get single product\"});",
+									"    pm.expect(request).to.be.an('object', 'Request \"Get single product\" not found.');",
+									"    pm.expect(request.event).to.be.an('array', 'The request has no scripts');",
+									"    userTests = request.event.find(event => event.listen === 'test');",
+									"    pm.expect(userTests).to.be.an('object', 'The request has no test script.');",
+									"    pm.expect(userTests.script.exec.toString(), 'The request has no tests.').includes(\"pm.test\");",
+									"    pm.expect(userTests.script.exec.toString(), \"The tests don't verify the response schema.\").includes('jsonSchema');",
+									"});",
+									"",
+									"",
+									"// Override the jsonSchema method",
+									"chai.Assertion.addMethod('jsonSchema', function(userSchema) {",
+									"    chai.Assertion.prototype.jsonSchema = originalJsonSchema;",
+									"    // Task #1 Mock response that is not an object",
+									"    let response = [];",
+									"    pm.expect(response, 'Task #1: Ensure that the response is an object.').not.to.be.jsonSchema(userSchema);",
+									"",
+									"    // Task #2 Required property is missing",
+									"    response = {",
+									"        //\"id\": 1001, // Removed id on purpose to check that the schema fails.",
+									"        \"category\": \"coffee\",",
+									"        \"name\": \"Espresso\",",
+									"        \"isAvailable\": true,",
+									"        \"product-description\": \"A rich, dark, and full-bodied coffee with a bold flavor and intense aroma.\",",
+									"        \"additionalText\": \"Contains caffeine\"",
+									"    }",
+									"    pm.expect(response, 'Task #2: Ensure that all properties are required.').not.to.be.jsonSchema(userSchema);",
+									"",
+									"    // Task #3 Additional properties are not allowed",
+									"    response = {",
+									"        \"id\": 1001,",
+									"        \"category\": \"coffee\",",
+									"        \"name\": \"Espresso\",",
+									"        \"isAvailable\": true,",
+									"        \"product-description\": \"A rich, dark, and full-bodied coffee with a bold flavor and intense aroma.\",",
+									"        \"additionalText\": \"Contains caffeine\",",
+									"        \"foo\": \"bar\" // added an additional property",
+									"    }",
+									"    pm.expect(response, 'Task #3: Additional properties are not allowed.').not.to.be.jsonSchema(userSchema);    ",
+									"",
+									"    // Mock response",
+									"    pm.response.json = function() {",
+									"        return response;",
+									"    };    ",
+									"",
+									"});",
+									"eval(userTests.script.exec.join('\\n').replace('\\\"', '\"'));"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "X-API-Key",
+									"type": "string"
+								},
+								{
+									"key": "in",
+									"value": "header",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-api-key",
+								"value": "{{postman_api_key}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://api.getpostman.com/collections/:collectionId?apikey={{postman_api_key}}",
+							"protocol": "https",
+							"host": [
+								"api",
+								"getpostman",
+								"com"
+							],
+							"path": [
+								"collections",
+								":collectionId"
+							],
+							"query": [
+								{
+									"key": "apikey",
+									"value": "{{postman_api_key}}"
+								}
+							],
+							"variable": [
+								{
+									"key": "collectionId",
+									"value": "{{collection_uuid}}"
+								}
+							]
+						},
+						"description": "It's time to check your work.\n\n1. **Get the collection ID:** Select the collection \"Assignment #4\" in the sidebar. Then in the context bar to the right, select the `Info` icon and copy the collection `ID`. Make sure you're getting the `ID` for the collection, and not this request.\n    \n2. **Update the request URL:** Update the `{{collection_uuid}}` in the request URL with the collection `ID` from the previous step, by updating the Postman collection variable.\n    \n3. **Get your Postman API key**: Select the collection in the left sidebar, and tab over to **Variables** to edit collection variables. You can already see one variable called `postman_api_key`. Get your [Postman API key](https://go.postman.co/settings/me/api-keys), and paste the value under `CURRENT VALUE` (and not `INITIAL VALUE`).> ⚠ DON'T LEAK YOUR SECRETS!  \n    It's very important to add sensitive values like an API key to the `CURRENT VALUE` (and not `INITIAL VALUE`) of your public workspace since initial values can be viewed publicly in a public workspace. Storing sensitive values only in `CURRENT VALUE` keeps your secrets private in a team or public workspace. If you accidentally show your API key, [revoke and regenerate your API key](https://go.postman.co/settings/me/api-keys).  \n    Once you save the changes, Postman can authorize your request as shown under the **Headers** tab of the request.\n4. **Validate your solution**: Hit **Send** and look under the **Tests** tab of the server response at the bottom to review your test results. ENSURE ALL TESTS PASS.\n    \n\nIf you have any failures, review the failed test results or ask for support in the [community forum](https://community.postman.com/c/training/38). When all of your tests pass, move on to the next request in this folder."
+					},
+					"response": []
+				}
+			],
+			"description": "Open the request \"Verify your work\" and follow the instructions in the request documentation."
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "postman_api_key",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "collection_uuid",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "baseUrl",
+			"value": "https://valentinos-coffee.herokuapp.com",
+			"type": "string"
+		}
+	]
+}
