@@ -14,24 +14,29 @@
 					"name": "Get API status",
 					"event": [
 						{
-							"listen": "prerequest",
-							"script": {
-								"exec": [
-									"console.clear()"
-								],
-								"type": "text/javascript"
-							}
-						},
-						{
 							"listen": "test",
 							"script": {
 								"exec": [
 									"console.log('Hello from the Test!');\r",
 									"\r",
 									"pm.test(\"Status code is 200\", function () {\r",
-									"    pm.response.to.have.status(200);\r",
+									"    pm.expect(pm.response.code).to.eql(200);\r",
 									"});\r",
 									"\r",
+									"pm.test(\"Headers\", function() {\r",
+									"    pm.expect(pm.response.headers.get('x-powered-by')).to.eql('Express');\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"if (console.clear) {\r",
+									"    console.clear();\r",
+									"}\r",
 									""
 								],
 								"type": "text/javascript"
@@ -95,6 +100,19 @@
 			"item": [
 				{
 					"name": "Get all products",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.expect(pm.response.code).to.eql(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "GET",
 						"header": [
@@ -176,8 +194,35 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"const response = pm.response.json();\r",
-									"console.log(response.id);"
+									"pm.test(\"Schema is valid\", function () {\r",
+									"    const schema = {\r",
+									"        type: 'object',\r",
+									"        properties: {\r",
+									"            id: {\r",
+									"                type: 'integer',\r",
+									"            },\r",
+									"            category: {\r",
+									"                type: 'string'\r",
+									"            },\r",
+									"            name: {\r",
+									"                type: 'string',\r",
+									"            },\r",
+									"            isAvailable: {\r",
+									"                type: 'boolean'\r",
+									"            },\r",
+									"            'product-description': { // Note the single quotes around property name\r",
+									"                type: 'string'\r",
+									"            },\r",
+									"            additionalText: {\r",
+									"                type: 'string'\r",
+									"            }\r",
+									"        },\r",
+									"        required: ['id', 'category', 'name', 'isAvailable', 'product-description', 'additionalText'],\r",
+									"        additionalProperties: false\r",
+									"    };\r",
+									"    pm.response.to.have.jsonSchema(schema);\r",
+									"});\r",
+									""
 								],
 								"type": "text/javascript"
 							}
@@ -262,6 +307,19 @@
 			"item": [
 				{
 					"name": "Register a new client",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.expect(pm.response.code).to.eql(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "POST",
 						"header": [],
@@ -293,6 +351,19 @@
 			"item": [
 				{
 					"name": "Get all orders",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.expect(pm.response.code).to.eql(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "GET",
 						"header": [
@@ -320,7 +391,27 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									""
+									"let response;\r",
+									"\r",
+									"pm.test(\"Task 1\", function () {\r",
+									"    // Verify that the response is in JSON format\r",
+									"    pm.response.to.be.json;\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Task 2\", function(){\r",
+									"    response = pm.response.json();\r",
+									"    // The existence of the property \"id\" in the response.\r",
+									"    pm.expect(response).to.have.property('id');\r",
+									"    // The value of the \"id\" property matches the regular expression pattern: ^[A-Z0-9]{9}$\r",
+									"    pm.expect(response.id).to.match(/^[A-Z0-9]{9}$/);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Task 3\", function() {\r",
+									"    // The existence of the property \"products\" in the response.\r",
+									"    pm.expect(response).to.have.property('products');\r",
+									"    // The value of the \"products\" property is an array.\r",
+									"    pm.expect(response.products).to.be.an('array');\r",
+									"})"
 								],
 								"type": "text/javascript"
 							}
@@ -403,11 +494,79 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"// parsowanie wyniku zapytania\r",
-									"const response = pm.response.json()\r",
+									"// // parsowanie wyniku zapytania\r",
+									"// const response = pm.response.json()\r",
 									"\r",
-									"//tworzenie zmiennej globalnej orderId czy id nowo utworzonego zamówienia\r",
-									"pm.collectionVariables.set('orderId', response.id);"
+									"// //tworzenie zmiennej globalnej orderId czy id nowo utworzonego zamówienia\r",
+									"// pm.collectionVariables.set('orderId', response.id);\r",
+									"\r",
+									"let response;\r",
+									"\r",
+									"pm.test(\"Response body is JSON\", function() {\r",
+									"    pm.response.to.be.json;\r",
+									"    response = pm.response.json()\r",
+									"    pm.collectionVariables.set('orderId', response.id);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Customer name\", function() {\r",
+									"    pm.expect(response.customerName).to.eql(pm.collectionVariables.get('customerName'));\r",
+									"});\r",
+									"\r",
+									"\r",
+									"// pm.test(\"Order ID format\", function(){\r",
+									"//     pm.expect(response.id).to.match(/^[A-Z0-9_]{9}$/);\r",
+									"// });\r",
+									"\r",
+									"\r",
+									"pm.test(\"Schema is valid\", function () {\r",
+									"    const schema = {\r",
+									"        type: 'object',\r",
+									"        properties: {\r",
+									"            id: {\r",
+									"                type: 'string',\r",
+									"                pattern: '^[A-Z0-9_-]{9,12}$'\r",
+									"            },\r",
+									"            clientId: {\r",
+									"                type: 'string'\r",
+									"            },\r",
+									"            created: {\r",
+									"                type: 'string',\r",
+									"                format: 'date-time'\r",
+									"            },\r",
+									"            customerName: {\r",
+									"                type: 'string'\r",
+									"            },\r",
+									"            products: {\r",
+									"                type: 'array',\r",
+									"                items: {\r",
+									"                    type: 'object',\r",
+									"                    properties: {\r",
+									"                        id: {\r",
+									"                            type: 'integer'\r",
+									"                        },\r",
+									"                        quantity: {\r",
+									"                            type: 'integer'\r",
+									"                        }\r",
+									"                    },\r",
+									"                    required: ['id', 'quantity']\r",
+									"                }\r",
+									"            },\r",
+									"        },\r",
+									"        required: ['id', 'clientId', 'created', 'customerName', 'products'],\r",
+									"        additionalProperties: false\r",
+									"    };\r",
+									"    pm.response.to.have.jsonSchema(schema);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.collectionVariables.set('customerName',pm.variables.replaceIn('{{$randomFullName}}'));"
 								],
 								"type": "text/javascript"
 							}
@@ -427,7 +586,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"customerName\": \"{{$randomFullName}}\",\n  \"products\": [\n    {\n      \"id\": {{productId}},\n      \"quantity\": 1\n    },\n    {\n      \"id\": 3001,\n      \"quantity\": 3\n    }\n  ]\n}",
+							"raw": "{\n  \"customerName\": \"{{customerName}}\",\n  \"products\": [\n    {\n      \"id\": {{productId}},\n      \"quantity\": 1\n    },\n    {\n      \"id\": 3001,\n      \"quantity\": 3\n    }\n  ]\n}",
 							"options": {
 								"raw": {
 									"headerFamily": "json",
@@ -446,7 +605,94 @@
 						},
 						"description": "Place a new order by providing customer details and ordered products"
 					},
-					"response": []
+					"response": [
+						{
+							"name": "Create a new order",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"customerName\": \"{{customerName}}\",\n  \"products\": [\n    {\n      \"id\": {{productId}},\n      \"quantity\": 1\n    },\n    {\n      \"id\": 3001,\n      \"quantity\": 3\n    }\n  ]\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/orders",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"orders"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "Cowboy"
+								},
+								{
+									"key": "Report-To",
+									"value": "{\"group\":\"heroku-nel\",\"max_age\":3600,\"endpoints\":[{\"url\":\"https://nel.heroku.com/reports?ts=1704576465&sid=c46efe9b-d3d2-4a0c-8c76-bfafa16c5add&s=4aDQy%2FZ5fYzUooZzW1Ah1cJylDF5vTTKtKeEPlPDcCQ%3D\"}]}"
+								},
+								{
+									"key": "Reporting-Endpoints",
+									"value": "heroku-nel=https://nel.heroku.com/reports?ts=1704576465&sid=c46efe9b-d3d2-4a0c-8c76-bfafa16c5add&s=4aDQy%2FZ5fYzUooZzW1Ah1cJylDF5vTTKtKeEPlPDcCQ%3D"
+								},
+								{
+									"key": "Nel",
+									"value": "{\"report_to\":\"heroku-nel\",\"max_age\":3600,\"success_fraction\":0.005,\"failure_fraction\":0.05,\"response_headers\":[\"Via\"]}"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "174"
+								},
+								{
+									"key": "Etag",
+									"value": "W/\"ae-dkEyqrZhf9NNyQDLWQrg+8Zo7xs\""
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 06 Jan 2024 21:27:45 GMT"
+								},
+								{
+									"key": "Via",
+									"value": "1.1 vegur"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": \"METMF3IYX\",\n    \"clientId\": \"6m2g8d5Vd\",\n    \"created\": \"2024-01-06T21:27:45.269Z\",\n    \"customerName\": \"Dominic Spencer\",\n    \"products\": [\n        {\n            \"id\": 3002,\n            \"quantity\": 1\n        },\n        {\n            \"id\": 3001,\n            \"quantity\": 3\n        }\n    ]\n}"
+						}
+					]
 				}
 			],
 			"auth": {
@@ -514,7 +760,7 @@
 		},
 		{
 			"key": "apiKey",
-			"value": "ENTER A VALID API KEY"
+			"value": "825d76ba163fcef8353e83bf122c55db3b6e5e1b"
 		},
 		{
 			"key": "baseUrl",
@@ -523,12 +769,16 @@
 		},
 		{
 			"key": "productId",
-			"value": "1001"
+			"value": "3002"
 		},
 		{
 			"key": "orderId",
-			"value": "",
+			"value": "6BBEUGA8S",
 			"type": "string"
+		},
+		{
+			"key": "customerName",
+			"value": "Oscar Gleichner"
 		}
 	]
 }
