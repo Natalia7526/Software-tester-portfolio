@@ -1,0 +1,790 @@
+{
+	"info": {
+		"_postman_id": "b36365ce-3f3d-4822-9b1f-39c1407254a0",
+		"name": "✅ Assignment #2",
+		"description": "## Instructions for Assignment #2\n\n1. **Get the challenge:** Fork the parent collection to your own public workspace.\n2. **Read the instructions:** You will find the tasks you need to complete below.\n3. **Verify your solution:** Select the second folder `Check your solution` and follow the instructions in the documentation to validate your solution.\n    \n\n## Tasks\n\n### Task 1\n\nUsing pm.expect() write a status code test for all the requests in the collection.\n\n### Task 2\n\nOnce you have established that the tests are working as expected, duplicate all the folders from the collection. Drag the folder copies inside the \"Assignment #2\" collection and put them in the \"API requests\" folder. Ensure the name of the request remains the same.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "21617616"
+	},
+	"item": [
+		{
+			"name": "API requests",
+			"item": [
+				{
+					"name": "status",
+					"item": [
+						{
+							"name": "Get API status",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.expect(pm.response.code).to.eql(200)\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"console.clear()"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/status",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"status"
+									]
+								},
+								"description": "Retrieve the current status of the API"
+							},
+							"response": [
+								{
+									"name": "API status",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/status",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"status"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"status\": \"<string>\"\n}"
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "products",
+					"item": [
+						{
+							"name": "Get all products",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.expect(pm.response.code).to.eql(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/products",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"products"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1",
+											"description": "The page number to fetch",
+											"disabled": true
+										},
+										{
+											"key": "category",
+											"value": "cookie",
+											"disabled": true
+										},
+										{
+											"key": "limit",
+											"value": "3",
+											"disabled": true
+										}
+									]
+								},
+								"description": "Retrieve a paginated list of products, 10 products per page"
+							},
+							"response": [
+								{
+									"name": "A list of products",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/products?page=1",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"products"
+											],
+											"query": [
+												{
+													"key": "page",
+													"value": "1",
+													"description": "The page number to fetch"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "[\n  {\n    \"id\": \"<integer>\",\n    \"category\": \"<string>\",\n    \"name\": \"<string>\",\n    \"isAvailable\": \"<boolean>\"\n  },\n  {\n    \"id\": \"<integer>\",\n    \"category\": \"<string>\",\n    \"name\": \"<string>\",\n    \"isAvailable\": \"<boolean>\"\n  }\n]"
+								}
+							]
+						},
+						{
+							"name": "Get single product",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let response;\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.expect(pm.response.code).to.eql(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response body is JSON\", function() {\r",
+											"    pm.response.to.be.json;\r",
+											"    response = pm.response.json();\r",
+											"    console.log(response.id);\r",
+											"});\r",
+											"\r",
+											"\r",
+											"pm.test(\"Product is bagel\", function() {\r",
+											"    pm.expect(response.id).to.eql(parseInt(pm.collectionVariables.get('productId')));\r",
+											"    pm.expect(response.name).to.eql('Bagel');\r",
+											"    pm.expect(response.isAvailable).to.eql(true);\r",
+											"});\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/products/:productId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"products",
+										":productId"
+									],
+									"variable": [
+										{
+											"key": "productId",
+											"value": "{{productId}}"
+										}
+									]
+								},
+								"description": "Retrieve a single product by specifying the product ID."
+							},
+							"response": [
+								{
+									"name": "A list of products",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/products?page=1",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"products"
+											],
+											"query": [
+												{
+													"key": "page",
+													"value": "1",
+													"description": "The page number to fetch"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "[\n  {\n    \"id\": \"<integer>\",\n    \"category\": \"<string>\",\n    \"name\": \"<string>\",\n    \"isAvailable\": \"<boolean>\"\n  },\n  {\n    \"id\": \"<integer>\",\n    \"category\": \"<string>\",\n    \"name\": \"<string>\",\n    \"isAvailable\": \"<boolean>\"\n  }\n]"
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "clients",
+					"item": [
+						{
+							"name": "Register a new client",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.expect(pm.response.code).to.eql(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"{{$randomExampleEmail}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/clients",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"clients"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "orders",
+					"item": [
+						{
+							"name": "Create a new order",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.expect(pm.response.code).to.eql(201);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.collectionVariables.set('customerName',pm.variables.replaceIn('{{$randomFullName}}'));"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"customerName\": \"{{customerName}}\",\n  \"products\": [\n    {\n      \"id\": {{productId}},\n      \"quantity\": 1\n    },\n    {\n      \"id\": 3001,\n      \"quantity\": 3\n    }\n  ]\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/orders",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"orders"
+									]
+								},
+								"description": "Place a new order by providing customer details and ordered products"
+							},
+							"response": []
+						},
+						{
+							"name": "Get an order by ID",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.expect(pm.response.code).to.eql(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/orders/:orderId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"orders",
+										":orderId"
+									],
+									"variable": [
+										{
+											"key": "orderId",
+											"value": "{{orderId}}"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "The requested order",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/orders/:orderId",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"orders",
+												":orderId"
+											],
+											"variable": [
+												{
+													"key": "orderId"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{}"
+								}
+							]
+						},
+						{
+							"name": "Get all orders",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.expect(pm.response.code).to.eql(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/orders",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"orders"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Check your solution",
+			"item": [
+				{
+					"name": "Verify your work",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let collection = pm.response.json().collection",
+									"",
+									"pm.test(\"If you have any failures, review the failed test results or ask for support in the community forum. Remember to save your changes if you update the collection.\", () => {",
+									"});",
+									"",
+									"pm.test(\"Status code is 200\", () => {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Correct collection returned\", () => {",
+									"    pm.expect(collection.info.name).contains(\"Assignment #2\")",
+									"});",
+									"",
+									"pm.test(\"API key secure\", () => {",
+									"    let apiKey = collection.variable.find(item => { return item.key === \"postman_api_key\"});",
+									"    pm.expect(apiKey.value, 'API key visible under Initial value').does.not.include(\"PMAK\");",
+									"});",
+									"",
+									"let folder = collection.item.find(fol => {return fol.name === \"API requests\"})",
+									"",
+									"pm.test(\"status > Get API status: contains status code test\", () => {",
+									"    let subFolder;",
+									"",
+									"    subFolder = folder.item.find(folder => { return folder.name === \"status\"});",
+									"    pm.expect(subFolder).to.be.an('object');",
+									"    pm.expect(subFolder.name, 'Check folder name').equals(\"status\");",
+									"    pm.expect(subFolder.item.length).to.eql(1, 'The status folder should have one request');",
+									"    let request = subFolder.item[0];",
+									"    pm.expect(request.name).to.eql('Get API status');",
+									"",
+									"    pm.expect(request.event).to.be.an('array', 'The request has no scripts');",
+									"    let tests = request.event.find(event => event.listen === 'test');",
+									"    pm.expect(tests).to.be.an('object', 'The request has no test script.');",
+									"    pm.expect(tests.script.exec.toString(), 'check script').includes(\"pm.test\");",
+									"    pm.expect(tests.script.exec.toString(), 'check script').includes(\"pm.expect(pm.response.code).to.eql(200)\");",
+									"});",
+									"",
+									"pm.test(\"products > Get all products: contains status code test\", () => {",
+									"    let subFolder;",
+									"",
+									"    subFolder = folder.item.find(folder => { return folder.name === \"products\"});",
+									"    pm.expect(subFolder).to.be.an('object');",
+									"    pm.expect(subFolder.name, 'Check folder name').equals(\"products\");",
+									"    pm.expect(subFolder.item.length).to.eql(2, 'The products folder should have two requests');",
+									"",
+									"    let request = subFolder.item.find(request => request.name === 'Get all products');",
+									"    pm.expect(request.name).to.eql('Get all products');",
+									"",
+									"    pm.expect(request.event).to.be.an('array', 'The request has no scripts');",
+									"    let tests = request.event.find(event => event.listen === 'test');",
+									"    pm.expect(tests).to.be.an('object', 'The request has no test script.');",
+									"    pm.expect(tests.script.exec.toString(), 'check script').includes(\"pm.test\");",
+									"    pm.expect(tests.script.exec.toString(), 'check script').includes(\"pm.expect(pm.response.code).to.eql(200)\");",
+									"});",
+									"",
+									"pm.test(\"products > Get single product: contains status code test\", () => {",
+									"    let subFolder;",
+									"",
+									"    subFolder = folder.item.find(folder => { return folder.name === \"products\"});",
+									"    pm.expect(subFolder).to.be.an('object');",
+									"    pm.expect(subFolder.name, 'Check folder name').equals(\"products\");",
+									"    pm.expect(subFolder.item.length).to.eql(2, 'The products folder should have two requests');",
+									"",
+									"    let request = subFolder.item.find(request => request.name === 'Get single product');",
+									"    pm.expect(request.name).to.eql('Get single product');",
+									"",
+									"    pm.expect(request.event).to.be.an('array', 'The request has no scripts');",
+									"    let tests = request.event.find(event => event.listen === 'test');",
+									"    pm.expect(tests).to.be.an('object', 'The request has no test script.');",
+									"    pm.expect(tests.script.exec.toString(), 'check script').includes(\"pm.test\");",
+									"    pm.expect(tests.script.exec.toString(), 'check script').includes(\"pm.expect(pm.response.code).to.eql(200)\");",
+									"});",
+									"",
+									"pm.test(\"clients > Register a new client: contains status code test\", () => {",
+									"    let subFolder;",
+									"",
+									"    subFolder = folder.item.find(folder => { return folder.name === \"clients\"});",
+									"    pm.expect(subFolder).to.be.an('object');",
+									"    pm.expect(subFolder.name, 'Check folder name').equals(\"clients\");",
+									"    pm.expect(subFolder.item.length).to.eql(1, 'The clients folder should have one request');",
+									"",
+									"    let request = subFolder.item.find(request => request.name === 'Register a new client');",
+									"    pm.expect(request.name).to.eql('Register a new client');",
+									"",
+									"    pm.expect(request.event).to.be.an('array', 'The request has no scripts');",
+									"    let tests = request.event.find(event => event.listen === 'test');",
+									"    pm.expect(tests).to.be.an('object', 'The request has no test script.');",
+									"    pm.expect(tests.script.exec.toString(), 'check script').includes(\"pm.test\");",
+									"    pm.expect(tests.script.exec.toString(), 'check script').includes(\"pm.expect(pm.response.code).to.eql(200)\");",
+									"});",
+									"",
+									"pm.test(\"orders > Create a new order: contains status code test\", () => {",
+									"    let subFolder;",
+									"",
+									"    subFolder = folder.item.find(folder => { return folder.name === \"orders\"});",
+									"    pm.expect(subFolder).to.be.an('object');",
+									"    pm.expect(subFolder.name, 'Check folder name').equals(\"orders\");",
+									"    pm.expect(subFolder.item.length).to.eql(3, 'The orders folder should have 3 requests');",
+									"",
+									"    let request = subFolder.item.find(request => request.name === 'Create a new order');",
+									"    pm.expect(request.name).to.eql('Create a new order');",
+									"",
+									"    pm.expect(request.event).to.be.an('array', 'The request has no scripts');",
+									"    let tests = request.event.find(event => event.listen === 'test');",
+									"    pm.expect(tests).to.be.an('object', 'The request has no test script.');",
+									"    pm.expect(tests.script.exec.toString(), 'check script').includes(\"pm.test\");",
+									"    pm.expect(tests.script.exec.toString(), 'check script').includes(\"pm.expect(pm.response.code).to.eql(201)\");",
+									"});",
+									"",
+									"pm.test(\"orders > Get all orders: contains status code test\", () => {",
+									"    let subFolder;",
+									"",
+									"    subFolder = folder.item.find(folder => { return folder.name === \"orders\"});",
+									"    pm.expect(subFolder).to.be.an('object');",
+									"    pm.expect(subFolder.name, 'Check folder name').equals(\"orders\");",
+									"",
+									"    let request = subFolder.item.find(request => request.name === 'Get all orders');",
+									"    pm.expect(request.name).to.eql('Get all orders');",
+									"",
+									"    pm.expect(request.event).to.be.an('array', 'The request has no scripts');",
+									"    let tests = request.event.find(event => event.listen === 'test');",
+									"    pm.expect(tests).to.be.an('object', 'The request has no test script.');",
+									"    pm.expect(tests.script.exec.toString(), 'check script').includes(\"pm.test\");",
+									"    pm.expect(tests.script.exec.toString(), 'check script').includes(\"pm.expect(pm.response.code).to.eql(200)\");",
+									"});",
+									"",
+									"pm.test(\"orders > Get an order by ID: contains status code test\", () => {",
+									"    let subFolder;",
+									"",
+									"    subFolder = folder.item.find(folder => { return folder.name === \"orders\"});",
+									"    pm.expect(subFolder).to.be.an('object');",
+									"    pm.expect(subFolder.name, 'Check folder name').equals(\"orders\");",
+									"",
+									"    let request = subFolder.item.find(request => request.name === 'Get an order by ID');",
+									"    pm.expect(request.name).to.eql('Get an order by ID');",
+									"",
+									"    pm.expect(request.event).to.be.an('array', 'The request has no scripts');",
+									"    let tests = request.event.find(event => event.listen === 'test');",
+									"    pm.expect(tests).to.be.an('object', 'The request has no test script.');",
+									"    pm.expect(tests.script.exec.toString(), 'check script').includes(\"pm.test\");",
+									"    pm.expect(tests.script.exec.toString(), 'check script').includes(\"pm.expect(pm.response.code).to.eql(200)\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "X-API-Key",
+									"type": "string"
+								},
+								{
+									"key": "in",
+									"value": "header",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-api-key",
+								"value": "{{postman_api_key}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://api.getpostman.com/collections/:collectionId?apikey={{postman_api_key}}",
+							"protocol": "https",
+							"host": [
+								"api",
+								"getpostman",
+								"com"
+							],
+							"path": [
+								"collections",
+								":collectionId"
+							],
+							"query": [
+								{
+									"key": "apikey",
+									"value": "{{postman_api_key}}"
+								}
+							],
+							"variable": [
+								{
+									"key": "collectionId",
+									"value": "{{collection_uuid}}"
+								}
+							]
+						},
+						"description": "It's time to check your work.\n\n1. **Get the collection ID:** Select the collection \"Assignment #2\" in the sidebar. Then in the context bar to the right, select the `Info` icon and copy the collection `ID`. Make sure you're getting the `ID` for the collection, and not this request.\n2. **Update the request URL:** Update the `{{collection_uuid}}` in the request URL with the collection `ID` from the previous step, by updating the Postman collection variable.\n    \n3. **Get your Postman API key**: Select the collection in the left sidebar, and tab over to **Variables** to edit collection variables. You can already see one variable called `postman_api_key`. Get your [Postman API key](https://go.postman.co/settings/me/api-keys), and paste the value under `CURRENT VALUE` (and not `INITIAL VALUE`).> ⚠ DON'T LEAK YOUR SECRETS!  \n    It's very important to add sensitive values like an API key to the `CURRENT VALUE` (and not `INITIAL VALUE`) of your public workspace since initial values can be viewed publicly in a public workspace. Storing sensitive values only in `CURRENT VALUE` keeps your secrets private in a team or public workspace. If you accidentally show your API key, [revoke and regenerate your API key](https://go.postman.co/settings/me/api-keys).  \n    Once you save the changes, Postman can authorize your request as shown under the **Headers** tab of the request.\n4. **Validate your solution**: Hit **Send** and look under the **Tests** tab of the server response at the bottom to review your test results. ENSURE ALL TESTS PASS.\n    \n\nIf you have any failures, review the failed test results or ask for support in the [community forum](https://community.postman.com/c/training/38). When all of your tests pass, move on to the next request in this folder."
+					},
+					"response": []
+				}
+			],
+			"description": "Open the request \"Verify your work\" and follow the instructions in the request documentation."
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "collection_uuid",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "postman_api_key",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "baseUrl",
+			"value": "https://valentinos-coffee.herokuapp.com",
+			"type": "string"
+		},
+		{
+			"key": "productId",
+			"value": "",
+			"type": "string"
+		}
+	]
+}
