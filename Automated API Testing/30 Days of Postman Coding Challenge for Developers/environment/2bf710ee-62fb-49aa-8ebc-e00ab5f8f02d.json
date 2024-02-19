@@ -1,1 +1,0 @@
-{"id":"2bf710ee-62fb-49aa-8ebc-e00ab5f8f02d","name":"30 Days of Postman","values":[{"key":"baseURL","value":"https://postman-echo.com","enabled":true,"type":"default"},{"key":"postman_api_key","value":"","enabled":true,"type":"secret"}]}

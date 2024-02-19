@@ -1,1 +1,0 @@
-{"id":"40099993-36ba-4563-97f6-08f9c75187ee","name":"Testing environment","values":[{"key":"baseUrl","value":"https://simple-grocery-store-api-testing.glitch.me/","enabled":true,"type":"default"},{"key":"accessToken","value":"accessToken","enabled":true,"type":"secret"}]}
